@@ -38,13 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = contactForm.querySelector('button');
             const originalText = submitBtn.innerText;
             
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-
             submitBtn.innerText = 'Sending...';
             submitBtn.disabled = true;
 
@@ -52,10 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('https://formspree.io/singhshiv0421@gmail.com', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify(formData),
+                    body: new FormData(contactForm),
                 });
 
                 if (response.ok) {
@@ -67,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Submission error:', error);
-                alert('Could not connect to the backend server. Make sure app.py is running!');
+                alert('Could not send message. Please check your internet connection or try again later.');
             } finally {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
